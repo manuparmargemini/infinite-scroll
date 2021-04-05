@@ -4,16 +4,16 @@ import { FactService } from '../_service/fact.service';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 @Component({
-  selector: 'app-fact-scroller',
-  templateUrl: './fact-scroller.component.html',
-  styleUrls: ['./fact-scroller.component.scss']
+  selector: 'response-scroller',
+  templateUrl: './response-scroller.component.html',
+  styleUrls: ['./response-scroller.component.scss']
 })
-export class FactScrollerComponent {
+export class ResponseScrollerComponent {
 
   dataSource: FactsDataSource;
   columns: string[];
   constructor(private factService: FactService) {
-    this.dataSource = new FactsDataSource(factService);
+    this.dataSource = new FactsDataSource(this.factService);
     this.columns =  Object.keys(new Fact());
     // console.log(this.columns);
   }
