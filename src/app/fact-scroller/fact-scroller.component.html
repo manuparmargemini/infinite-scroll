@@ -1,15 +1,16 @@
+<div class = "header header-box">
+  <tr class="fact-item">
+    <td class="fact-date head-td" *ngFor="let column of columns">{{column}}</td>
+  </tr>
+</div>
 <cdk-virtual-scroll-viewport
-  itemSize="100"
+  itemSize="50"
   class="fact-scroll-viewport">
-  <li *cdkVirtualFor="let fact of dataSource">
-
-    <div *ngIf="fact" class="fact-item">
-      <div class="fact-date">{{ fact.year }}</div>
-      <div class="fact-text">{{ fact.text }}</div>
-    </div>
-    <div *ngIf="!fact">
-      Loading ...
-    </div>
-
-  </li>
+  <table>
+    <tr *cdkVirtualFor="let fact of dataSource" class="fact-item">
+      <ng-template [ngIf]="fact">
+        <td class="fact-date" *ngFor="let column of columns">{{ getFactValue(fact,column) }}</td>
+      </ng-template>
+    </tr>
+  </table>
 </cdk-virtual-scroll-viewport>

@@ -12,8 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
 
-  constructor(private http: HttpClient,
-              private factService: FactService) {
+  constructor() {
   }
 
 }

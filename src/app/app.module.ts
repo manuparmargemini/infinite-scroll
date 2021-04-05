@@ -11,7 +11,7 @@ import { FactScrollerComponent } from './fact-scroller/fact-scroller.component';
 @NgModule({
   declarations: [
     AppComponent,
-    FactScrollerComponent
+    FactScrollerComponent,
   ],
   imports: [
     BrowserModule,

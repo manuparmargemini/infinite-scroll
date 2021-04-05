@@ -3,8 +3,6 @@ import { Fact } from '../_model/fact.model';
 import { FactService } from '../_service/fact.service';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-
-
 @Component({
   selector: 'app-fact-scroller',
   templateUrl: './fact-scroller.component.html',
@@ -13,13 +11,16 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 export class FactScrollerComponent {
 
   dataSource: FactsDataSource;
-
+  columns: string[];
   constructor(private factService: FactService) {
     this.dataSource = new FactsDataSource(factService);
+    this.columns =  Object.keys(new Fact());
+    // console.log(this.columns);
   }
-
+  getFactValue(fact: Fact, column: string) {
+    return fact[column];
+  }
 }
-
 export class FactsDataSource extends DataSource<Fact | undefined> {
   private cachedFacts = Array.from<Fact>({ length: 0 });
   private dataStream = new BehaviorSubject<(Fact | undefined)[]>(this.cachedFacts);
@@ -30,8 +31,6 @@ export class FactsDataSource extends DataSource<Fact | undefined> {
 
   constructor(private factService: FactService) {
     super();
-
-    // Start with some data.
     this._fetchFactPage();
   }
 
@@ -41,7 +40,7 @@ export class FactsDataSource extends DataSource<Fact | undefined> {
       const currentPage = this._getPageForIndex(range.end);
 
       if (currentPage && range) {
-        console.log(currentPage, this.lastPage);
+        // console.log(currentPage, this.lastPage);
       }
 
       if (currentPage > this.lastPage) {
@@ -58,7 +57,10 @@ export class FactsDataSource extends DataSource<Fact | undefined> {
 
   private _fetchFactPage(): void {
     for (let i = 0; i < this.pageSize; ++i) {
-      this.factService.getRandomFact().subscribe(res => {
+      this.factService.getRandomFact(this.pageSize*this.lastPage+i).subscribe(res => {
+        if(res.length === 0) {
+          return;
+        }
         this.cachedFacts = this.cachedFacts.concat(res);
         this.dataStream.next(this.cachedFacts);
       });
